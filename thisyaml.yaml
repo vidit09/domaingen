@@ -1,0 +1,63 @@
+apiVersion: run.ai/v1
+kind: RunaiJob
+metadata:
+  labels:
+    priorityClassName: build
+    user: vidit
+  name: vidit-debug
+spec:
+  template:
+    metadata:
+      labels:
+        user: vidit
+    spec:
+      containers:
+      - command:
+        - /opt/lab/setup_and_run_command.sh
+        - cd /cvlabdata2/home/vidit/domaingen && sleep 5h
+        env:
+        - name: CLUSTER_USER
+          value: vidit
+        - name: CLUSTER_USER_ID
+          value: '157873'
+        - name: CLUSTER_GROUP_NAME
+          value: CVLAB-unit
+        - name: CLUSTER_GROUP_ID
+          value: '11166'
+        - name: TORCH_MODEL_ZOO
+          value: /cvlabsrc1/cvlab/pytorch_model_zoo/vidit_models
+        - name: TORCH_HOME
+          value: /cvlabsrc1/cvlab/pytorch_model_zoo
+        - name: DETECTRON2_DATASETS
+          value: /cvlabdata2/home/vidit/detectron2_datasets
+        image: ic-registry.epfl.ch/cvlab/lis/lab-python-ml:cuda11
+        imagePullPolicy: Always
+        name: perform-job
+        ports:
+        - containerPort: 8888
+          name: jupyter
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - mountPath: /cvlabsrc1
+          name: cvlabsrc1
+        - mountPath: /cvlabdata2
+          name: cvlabdata2
+        - mountPath: /dev/shm
+          name: dshm
+      nodeSelector:
+        run.ai/type: G9
+      restartPolicy: Never
+      schedulerName: runai-scheduler
+      volumes:
+      - name: cvlabsrc1
+        persistentVolumeClaim:
+          claimName: runai-cvlab-vidit-cvlabsrc1
+      - name: cvlabdata2
+        persistentVolumeClaim:
+          claimName: runai-cvlab-vidit-cvlabdata2
+      - emptyDir:
+          medium: Memory
+          sizeLimit: 8Gi
+        name: dshm

@@ -1,0 +1,15 @@
+an image taken on a snow night
+an image taken on a fog night
+an image taken on a cloudy night
+an image taken on a rain night
+an image taken on a stormy night
+an image taken on a snow day
+an image taken on a fog day
+an image taken on a cloudy day
+an image taken on a rain day
+an image taken on a stormy day
+an image taken on a snow evening
+an image taken on a fog evening
+an image taken on a cloudy evening
+an image taken on a rain evening
+an image taken on a stormy evening

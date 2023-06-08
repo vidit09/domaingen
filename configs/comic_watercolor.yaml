@@ -1,0 +1,38 @@
+BASE_YAML: "COCO-Detection/faster_rcnn_R_101_C4_3x.yaml"
+DATASETS:
+        TRAIN: ('voc_adapt_2007_trainval',"voc_adapt_2012_train",)
+        TEST: ('voc_adapt_2012_val','voc_adapt_2007_test','comic_test','watercolor_test')
+DATALOADER:
+        NUM_WORKERS: 16
+INPUT:
+        MIN_SIZE_TRAIN: (600,)
+        MIN_SIZE_TEST: 600
+        CLIP_RANDOM_CROPS: True
+        RANDOM_CROP_SIZE: 400
+
+SOLVER:
+        BASE_LR: 0.0001
+        MAX_ITER: 100000
+        STEPS: [] #[10000,]       
+        WARMUP_ITERS: 0
+        IMS_PER_BATCH: 4
+        CHECKPOINT_PERIOD: 1000000
+MODEL:
+        BACKBONE:
+                NAME: ClipRN101
+        WEIGHTS: ""
+        CLIP_IMAGE_ENCODER_NAME: 'RN101'
+        META_ARCHITECTURE: 'ClipRCNNWithClipBackboneWithOffsetGenTrainableVOC'
+
+        PROPOSAL_GENERATOR:
+                NAME: 'SBRPN'
+        ROI_HEADS:
+                NAME: 'ClipRes5ROIHeadsAttn'        
+                # BATCH_SIZE_PER_IMAGE: 128   # faster, and good enough for this toy dataset (default: 512)
+                NUM_CLASSES: 6
+TEST:
+        EVAL_SAVE_PERIOD: 5000
+OUTPUT_DIR: "all_outs/comic_watercolor"
+VIS_PERIOD: 5000
+OFFSET_OPT_INTERVAL: [2000000]
+OFFSET_OPT_ITERS: 1000
