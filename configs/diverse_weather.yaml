@@ -31,7 +31,7 @@ MODEL:
                 # BATCH_SIZE_PER_IMAGE: 128   # faster, and good enough for this toy dataset (default: 512)
                 NUM_CLASSES: 7
 TEST:
-        EVAL_SAVE_PERIOD: 10000
+        EVAL_SAVE_PERIOD: 5000
 OUTPUT_DIR: "all_outs/diverse_weather"
 VIS_PERIOD: 5000
 OFFSET_OPT_INTERVAL: [20000000]
